@@ -1,0 +1,39 @@
+{
+	"info": {
+		"_postman_id": "873c45be-1e31-424b-b857-e835534b9c92",
+		"name": "Reports",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "16230861"
+	},
+	"item": [
+		{
+			"name": "List Transfers",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8082/reports?startDate=2025-02-27T00:00:45.123&endDate=2025-02-28T22:30:45.123",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"reports"
+					],
+					"query": [
+						{
+							"key": "startDate",
+							"value": "2025-02-27T00:00:45.123"
+						},
+						{
+							"key": "endDate",
+							"value": "2025-02-28T22:30:45.123"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

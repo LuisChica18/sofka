@@ -1,0 +1,128 @@
+{
+	"info": {
+		"_postman_id": "60febf06-86cd-4b33-92fd-e66830bda889",
+		"name": "Client",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "16230861"
+	},
+	"item": [
+		{
+			"name": "Create Client",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"clientId\": \"CLI001\",\r\n    \"name\": \"John Doe Updated\",\r\n    \"gender\": \"Male\",\r\n    \"age\": 31,\r\n    \"dni\": \"12345678\",\r\n    \"address\": \"456 New St\",\r\n    \"phone\": \"555-0124\",\r\n    \"password\": \"secure123\",\r\n    \"status\": true\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8081/clients",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"clients"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Client",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"clientId\": \"CLI001\",\r\n    \"name\": \"John Doe Updated\",\r\n    \"gender\": \"Male\",\r\n    \"age\": 31,\r\n    \"dni\": \"12345678\",\r\n    \"address\": \"456 New St\",\r\n    \"phone\": \"555-0124\",\r\n    \"identifyClient\": \"CLI001\",\r\n    \"password\": \"secure123\",\r\n    \"status\": true\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8081/clients/1",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"clients",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Client",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "localhost:8081/clients/1",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"clients",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Client By Id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8081/clients/2",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"clients",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "List Clients",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8081/clients",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"clients"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
