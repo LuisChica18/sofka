@@ -1,11 +1,15 @@
 package com.advanceit.bankservice.controller;
 
-import com.advanceit.bankservice.entity.Account;
+import com.advanceit.bankservice.dto.AccountDTO;
 import com.advanceit.bankservice.entity.Transaction;
 import com.advanceit.bankservice.service.AccountService;
 import com.advanceit.bankservice.service.TransactionService;
+import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/accounts")
@@ -20,28 +24,34 @@ public class AccountController {
     }
 
     @PostMapping
-    public Account createAccount(@RequestBody Account account) {
-        return accountService.save(account);
+    public ResponseEntity<AccountDTO> createAccount(@Valid @RequestBody AccountDTO account) {
+        return new ResponseEntity<>(accountService.save(account), HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public Account updateAccount(@PathVariable Long id, @RequestBody Account account) {
-        return accountService.updateAccount(id, account);
+    public ResponseEntity<AccountDTO> updateAccount(@PathVariable Long id, @RequestBody AccountDTO account) {
+        return ResponseEntity.ok(accountService.updateAccount(id, account));
     }
 
     @DeleteMapping("/{id}")
-    public void deleteAccount(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteAccount(@PathVariable Long id) {
         accountService.deleteAccount(id);
+        return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/{id}")
-    public Account getAccount(@PathVariable Long id) {
-        return accountService.getAccount(id);
+    public ResponseEntity<AccountDTO> getAccount(@PathVariable Long id) {
+        return ResponseEntity.ok(accountService.getAccount(id));
+    }
+
+    @GetMapping
+    public ResponseEntity<List<AccountDTO>> getAllAccounts() {
+        return ResponseEntity.ok(accountService.getAllAccounts());
     }
 
     @PostMapping("/movimientos")
     public ResponseEntity<Transaction> registerTransaction(@RequestBody Transaction transaction) {
-        Transaction registeredTransaction = transactionService.registerTransaction(transaction);
+        Transaction registeredTransaction = transactionService.registerTransaction(transaction, false);
         return ResponseEntity.ok(registeredTransaction);
     }
 }

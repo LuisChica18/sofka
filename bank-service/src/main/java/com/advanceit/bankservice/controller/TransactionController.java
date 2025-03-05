@@ -19,7 +19,7 @@ public class TransactionController {
 
     @PostMapping
     public Transaction createTransaction(@RequestBody Transaction transaction) {
-        return transactionService.registerTransaction(transaction);
+        return transactionService.registerTransaction(transaction, false);
     }
 
     @GetMapping
@@ -35,7 +35,7 @@ public class TransactionController {
     @PutMapping("/{id}")
     public Transaction updateTransaction(@PathVariable Long id, @RequestBody Transaction transaction) {
         transaction.setId(id);
-        return transactionService.registerTransaction(transaction);
+        return transactionService.registerTransaction(transaction, false);
     }
 
     @DeleteMapping("/{id}")

@@ -1,5 +1,7 @@
 package com.advanceit.bankservice.service.impl;
 
+import com.advanceit.bankservice.async.dto.ClientDTO;
+import com.advanceit.bankservice.client.ClientClient;
 import com.advanceit.bankservice.dto.AccountReportDTO;
 import com.advanceit.bankservice.dto.TransactionReportDTO;
 import com.advanceit.bankservice.entity.Account;
@@ -11,17 +13,18 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class ReportServiceImpl implements ReportService {
 
     private final AccountRepository accountRepository;
     private final TransactionRepository transactionRepository;
+    private final ClientClient clientServiceClient;
 
-    public ReportServiceImpl(AccountRepository accountRepository, TransactionRepository transactionRepository) {
+    public ReportServiceImpl(AccountRepository accountRepository, TransactionRepository transactionRepository, ClientClient clientServiceClient) {
         this.accountRepository = accountRepository;
         this.transactionRepository = transactionRepository;
+        this.clientServiceClient = clientServiceClient;
     }
 
     @Override
@@ -30,21 +33,26 @@ public class ReportServiceImpl implements ReportService {
 
         return accounts.stream()
                 .map(account -> createAccountReport(account, startDate, endDate))
-                .collect(Collectors.toList());
+                .toList();
     }
 
     private AccountReportDTO createAccountReport(Account account, LocalDateTime startDate, LocalDateTime endDate) {
+
+        ClientDTO clientDTO = clientServiceClient.getClientById(account.getClientId());
+
         AccountReportDTO reportDTO = new AccountReportDTO();
+        reportDTO.setClientName(clientDTO.getName());
         reportDTO.setAccountNumber(account.getAccountNumber());
-        reportDTO.setAccountType(account.getAccountType());
+        reportDTO.setAccountType(account.getAccountType().name());
         reportDTO.setCurrentBalance(account.getInitialBalance());
+        reportDTO.setStatus(account.isStatus());
 
         List<Transaction> transactions = transactionRepository
                 .findByAccountIdAndDateBetween(account.getId(), startDate, endDate);
 
         reportDTO.setTransactions(transactions.stream()
                 .map(this::mapToTransactionDTO)
-                .collect(Collectors.toList()));
+                .toList());
 
         return reportDTO;
     }

@@ -1,14 +1,14 @@
 package com.advanceit.bankservice.service;
 
-import com.advanceit.bankservice.entity.Account;
+import com.advanceit.bankservice.dto.AccountDTO;
 
 import java.util.List;
 
 public interface AccountService {
-    Account save(Account account);
-    Account updateAccount(Long id, Account account);
+    AccountDTO save(AccountDTO account);
+    AccountDTO updateAccount(Long id, AccountDTO account);
     void deleteAccount(Long id);
-    Account getAccount(Long id);
-    List<Account> getAllAccounts();
-    Account findByAccountNumber(String accountNumber);
+    AccountDTO getAccount(Long id);
+    List<AccountDTO> getAllAccounts();
+    AccountDTO findByAccountNumber(String accountNumber);
 }

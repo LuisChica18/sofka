@@ -4,10 +4,20 @@ import java.math.BigDecimal;
 import java.util.List;
 
 public class AccountReportDTO {
+    private String clientName;
     private String accountNumber;
     private String accountType;
+    private boolean status;
     private BigDecimal currentBalance;
     private List<TransactionReportDTO> transactions;
+
+    public String getClientName() {
+        return clientName;
+    }
+
+    public void setClientName(String clientName) {
+        this.clientName = clientName;
+    }
 
     public String getAccountNumber() {
         return accountNumber;
@@ -23,6 +33,14 @@ public class AccountReportDTO {
 
     public void setAccountType(String accountType) {
         this.accountType = accountType;
+    }
+
+    public boolean isStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
     }
 
     public BigDecimal getCurrentBalance() {

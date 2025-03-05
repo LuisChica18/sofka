@@ -1,60 +1,31 @@
 package com.advanceit.bankservice.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.advanceit.bankservice.enums.AccountTypeEnum;
+import jakarta.persistence.*;
+import lombok.Data;
 
 import java.math.BigDecimal;
 
+@Data
 @Entity
 public class Account {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(name = "account_number", unique = true, nullable = false)
     private String accountNumber;
-    private String accountType;
+
+    @Enumerated(EnumType.STRING)
+    private AccountTypeEnum accountType;
+
+    @Column(name = "initial_balance", nullable = false)
     private BigDecimal initialBalance;
+
+    @Column(name = "status", nullable = false)
     private boolean status;
 
-    public Long getId() {
-        return id;
-    }
+    @Column(name = "client_id", nullable = false)
+    private Long clientId;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getAccountNumber() {
-        return accountNumber;
-    }
-
-    public void setAccountNumber(String accountNumber) {
-        this.accountNumber = accountNumber;
-    }
-
-    public String getAccountType() {
-        return accountType;
-    }
-
-    public void setAccountType(String accountType) {
-        this.accountType = accountType;
-    }
-
-    public BigDecimal getInitialBalance() {
-        return initialBalance;
-    }
-
-    public void setInitialBalance(BigDecimal initialBalance) {
-        this.initialBalance = initialBalance;
-    }
-
-    public boolean isStatus() {
-        return status;
-    }
-
-    public void setStatus(boolean status) {
-        this.status = status;
-    }
 }

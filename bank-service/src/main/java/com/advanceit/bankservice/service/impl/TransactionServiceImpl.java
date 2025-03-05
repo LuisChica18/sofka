@@ -2,6 +2,7 @@ package com.advanceit.bankservice.service.impl;
 
 import com.advanceit.bankservice.entity.Account;
 import com.advanceit.bankservice.entity.Transaction;
+import com.advanceit.bankservice.enums.MovementTypeEnum;
 import com.advanceit.bankservice.exception.InsufficientBalanceException;
 import com.advanceit.bankservice.exception.ResourceNotFoundException;
 import com.advanceit.bankservice.repository.AccountRepository;
@@ -27,13 +28,20 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     @Transactional
-    public Transaction registerTransaction(Transaction transaction) {
-        Account account = accountRepository.findById(transaction.getAccount().getId())
+    public Transaction registerTransaction(Transaction transaction, boolean initalTransaction) {
+        Account account = accountRepository.findByAccountNumber(transaction.getAccount().getAccountNumber())
                 .orElseThrow(() -> new ResourceNotFoundException("Account not found"));
+
+        if (!account.isStatus())
+            throw new IllegalArgumentException("Account not active");
 
         BigDecimal currentBalance = account.getInitialBalance();
         BigDecimal amount = transaction.getAmount();
-        BigDecimal newBalance = currentBalance.add(amount);
+        BigDecimal newBalance;
+        if (initalTransaction)
+            newBalance =  currentBalance;
+        else
+            newBalance = currentBalance.add(amount);
 
         if (newBalance.compareTo(BigDecimal.ZERO) < 0) {
             throw new InsufficientBalanceException("Balance not available");
@@ -41,7 +49,7 @@ public class TransactionServiceImpl implements TransactionService {
 
         transaction.setDate(LocalDateTime.now());
         transaction.setBalance(newBalance);
-        transaction.setTypeTransaction(amount.compareTo(BigDecimal.ZERO) >= 0 ? "DEPOSIT" : "WITHDRAWAL");
+        transaction.setTypeTransaction(amount.compareTo(BigDecimal.ZERO) >= 0 ? MovementTypeEnum.DEPOSIT : MovementTypeEnum.WITHDRAWAL);
         transaction.setAccount(account);
 
         account.setInitialBalance(newBalance);
